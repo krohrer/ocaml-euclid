@@ -1,5 +1,3 @@
-(* Kaspar Rohrer, Sat Mar  6 02:13:48 CET 2010 *)
-
 (** Polymorphic vector
 
     Vector should be polymorphic because float arrays are handled

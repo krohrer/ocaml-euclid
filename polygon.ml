@@ -61,4 +61,4 @@ let fold_edges f a pg =
       a
 
 let print fmt pg =
-  print_array V.print fmt pg
+  Hopp.pp_print_array V.print fmt pg

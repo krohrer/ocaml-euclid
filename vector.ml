@@ -1,5 +1,3 @@
-(* Kaspar Rohrer, Tue Jan 20 02:44:45 CET 2009 *)
-
 (*----------------------------------------------------------------------------*)
 
 (* TODO : assertions for mutating functions to prevent mangling of objects 

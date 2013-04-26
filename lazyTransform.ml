@@ -1,19 +1,20 @@
 type ephemeral = Core.ephemeral
 type persistent = Core.persistent
 
+(* TODO: Rewrite this using GADT *)
+
 type ('i,'j) t = {
   forward : ('i,'j) t';
   inverse : ('j,'i) t' Lazy.t;
 }
 and  ('i,'j) t' =
   | Identity
-  | LMatrix of (persistent,'j,'i) Matrix.t
-  | RMatrix of (persistent,'i,'j) Matrix.t
+  | Matrix of (persistent,'i,'j) Matrix.t
   | QRot of persistent Quaternion.t
   | Tlt of (persistent,'i) Vector.t
   | Composition of composition_t
-  | Inverse of 
-  | Full of (persistent, 'i)
+  | Inverse of ('j,'i) t'
+  | Full of (persistent, 'i,'j) Matrix.t
   | Lazy of ('j,'i) t Lazy.t
 and ('i,'k) composition_t = {
   lside : 'j . ('j,'k) t;

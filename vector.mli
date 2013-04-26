@@ -1,6 +1,5 @@
-(* Kaspar Rohrer, Tue Jan 20 02:44:40 CET 2009 *)
-
-(** Vector (persistent/ephemeral) of floats of statically typed dimension *)
+(** Vector (persistent/ephemeral) of floats of statically typed
+    dimension *)
 
 type ephemeral = Core.ephemeral
 type persistent = Core.persistent

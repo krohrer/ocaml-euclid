@@ -180,13 +180,13 @@ open Format
 open Hopp
 
 let print fmt i =
-  hopp_open_box fmt "{";
-  hopp_labeled "lower" V.print fmt i.lower;
+  pp_open_lbox fmt "{";
+  pp_print_labeled_field "lower" V.print fmt i.lower;
   pp_print_space fmt ();
-  hopp_labeled "upper" V.print fmt i.upper;
-  hopp_close_box fmt "}"
+  pp_print_labeled_field "upper" V.print fmt i.upper;
+  pp_close_lbox fmt "}"
 
-let to_string i = hopp_to_string print i
+let to_string i = pp_make_to_string print i
 
 (*----------------------------------------------------------------------------*)
 

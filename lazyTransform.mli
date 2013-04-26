@@ -60,9 +60,9 @@ val concat  : ('i,'j) t -> ('j,'k) t -> ('i,'k) t
 val invert : ('i,'i) t -> ('i,'i) t
 
 val apply : ('i,'j) t -> (persistent,'i) Vector.t -> (_,'j) Vector.t
-val call' : ('i,'j) t -> (persistent,'i) Vector.t -> out:(ephemeral,'j) Vector.t -> ()
+val call' : ('i,'j) t -> (persistent,'i) Vector.t -> out:(ephemeral,'j) Vector.t -> unit
 
 (** apply *)
 val transform  : ('i,'j) t -> (persistent,'i) Vector.t -> (_,'j) Vector.t
 (** call' *)
-val transform' : ('i,'j) t -> (persistent,'i) Vector.t -> (ephemeral,'j) Vector.t -> ()
+val transform' : ('i,'j) t -> (persistent,'i) Vector.t -> (ephemeral,'j) Vector.t -> unit

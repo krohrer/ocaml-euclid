@@ -1,6 +1,5 @@
-(* Kaspar Rohrer, Mon Jan 19 23:31:11 CET 2009 *)
-
-(** Matrix (persistent/ephemeral) of floats of statically typed dimensions *)
+(** Matrix (persistent/ephemeral) of floats of statically typed
+    dimensions *)
 
 type ephemeral = Core.ephemeral
 type persistent = Core.persistent

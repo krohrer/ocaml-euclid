@@ -1,5 +1,3 @@
-(* Kaspar Rohrer, Sun Mar  7 13:07:07 CET 2010 *)
-
 (** Affine transformations (ephemeral/persistent) with statically typed dimensions *)
 
 type ephemeral = Core.ephemeral

@@ -1,6 +1,5 @@
-(* Kaspar Rohrer, Sat Mar  6 02:36:13 CET 2010 *)
-
-(** Intervals (persistent/ephemeral) consist of a lower and an upper bound. Or nothing at all. *)
+(** Intervals (persistent/ephemeral) consist of a lower and an upper
+    bound. Or nothing at all. *)
 
 type ephemeral = Core.ephemeral
 type persistent = Core.persistent

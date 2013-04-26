@@ -1,5 +1,3 @@
-(* Kaspar Rohrer, Sat Mar  6 02:14:35 CET 2010 *)
-
 type ephemeral = Core.ephemeral
 type persistent = Core.persistent
 

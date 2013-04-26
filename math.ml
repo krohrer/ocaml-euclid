@@ -1,20 +1,3 @@
-(* Kaspar Rohrer, Tue Apr 20 00:30:56 CEST 2010 *)
-
-open Core
-
-module Doc =
-struct
-  let name = "Math"
-  let version = 0, 1, 0
-  let description = "The Math libary provides mathematical constructs like vectors, matrices, quaternions, etc. which are commonly used in the field of computer graphics."
-
-  let author = kmr
-  let contributors = []
-  let maintainer = Some kmr
-end
-
-module Log = MakeLog(Doc)
-
 let binsearchi ~f ~x0 ~x1 y =
   let rec iter x0 x1 =
     let xm = (x0 + x1) / 2 in

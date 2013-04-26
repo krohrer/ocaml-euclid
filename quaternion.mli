@@ -1,5 +1,3 @@
-(* Kaspar Rohrer, Tue Jan 20 02:32:31 CET 2009 *)
-
 (** Quaternions (persistent/ephemeral) *)
 
 type ephemeral = Core.ephemeral
