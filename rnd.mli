@@ -11,5 +11,4 @@ val int : state -> int -> int
 val float : state -> float -> float
 val bool : state -> bool
 
-val box_mueller : state -> float * float
 val gaussian : state -> ?mu:float -> ?sigma:float -> unit -> float

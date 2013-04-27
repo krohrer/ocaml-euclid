@@ -78,13 +78,14 @@ let is_everything i =
   i.upper = infinity
 
 let random_gaussian ?(state=Rnd.default_state) ?(mu=0.) ?(sigma=1.) () =
-  let x0, x1 = Rnd.box_mueller state in
+  let x0 = Rnd.gaussian state ~mu ~sigma () in
+  let x1 = Rnd.gaussian state ~mu ~sigma () in
     if x0 < x1 then {
-      lower = sigma *. x0 +. mu;
-      upper = sigma *. x1 +. mu
+      lower = x0;
+      upper = x1
     } else {
-      lower = sigma *. x1 +. mu;
-      upper = sigma *. x0 +. mu
+      lower = x1;
+      upper = x0
     }
 
 (*------------------------------------*)
@@ -320,7 +321,7 @@ let contains_suite = "contains" >:: fun () ->
     ]
 
 let contains_value_suite = "contains_value" >:: fun () ->
-  let r,_ = Rnd.box_mueller Rnd.default_state in
+  let r = Rnd.gaussian Rnd.default_state () in
     List.iter (test_binpred contains_value) [
       "r in 0", nothing, r, false;
       "r in r", make_point r, r, true;

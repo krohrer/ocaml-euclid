@@ -101,4 +101,3 @@ val is_everything : _ t -> bool
 
 val test_equal : string -> _ t -> _ t -> unit
 val unit_test : OUnit.test
-

@@ -40,7 +40,7 @@ let zeroed v =
 
 let fill' x dst =
   let n = dim dst in
-    Array.fill dst 0 n x
+  Array.fill dst 0 n x
 
 let copy' from dst =
   Array.blit from 0 dst 0 (dim dst)
@@ -49,17 +49,17 @@ let xfer' v dst =
   let n = dim dst
   and m = dim v
   in
-    Array.blit v 0 dst 0 (min n m)
+  Array.blit v 0 dst 0 (min n m)
 
 let copy_to_array' v arr =
   let n = dim v in
-    assert (Array.length arr == n);
-    Array.blit v 0 arr 0 n
+  assert (Array.length arr == n);
+  Array.blit v 0 arr 0 n
 
 let copy_from_array' v arr =
   let n = dim v in
-    assert (Array.length arr = n);
-    Array.blit arr 0 v 0 n
+  assert (Array.length arr = n);
+  Array.blit arr 0 v 0 n
 
 
 let zero d =
@@ -109,74 +109,74 @@ let set_w' v f = v.(3) <- f
 
 let ex n =
   let v = zero n in
-    set_x' v 1.;
-    v
+  set_x' v 1.;
+  v
 
 let ey n =
   let v = zero n in
-    set_y' v 1.;
-    v
+  set_y' v 1.;
+  v
 
 let ez n = 
   let v = zero n in
-    set_z' v 1.;
-    v
+  set_z' v 1.;
+  v
 
 let ew n =
   let v = zero n in
-    set_w' v 1.;
-    v
+  set_w' v 1.;
+  v
 
 let ex' dst =
   let n = dim dst in
-    dst.(0) <- 1.;
-    for i = 1 to n-1 do
-      dst.(i) <- 0.
-    done
-      
+  dst.(0) <- 1.;
+  for i = 1 to n-1 do
+    dst.(i) <- 0.
+  done
+    
 let ey' dst = 
   let n = dim dst in
-    dst.(0) <- 0.;
-    dst.(1) <- 1.;
-    for i = 2 to n-1 do
-      dst.(i) <- 0.
-    done
+  dst.(0) <- 0.;
+  dst.(1) <- 1.;
+  for i = 2 to n-1 do
+    dst.(i) <- 0.
+  done
 
 let ez' dst = 
   let n = dim dst in
-    dst.(0) <- 0.;
-    dst.(1) <- 0.;
-    dst.(2) <- 1.;
-    for i = 3 to n-1 do
-      dst.(i) <- 0.
-    done
+  dst.(0) <- 0.;
+  dst.(1) <- 0.;
+  dst.(2) <- 1.;
+  for i = 3 to n-1 do
+    dst.(i) <- 0.
+  done
 
 let ew' dst =
   let n = dim dst in
-    dst.(0) <- 0.;
-    dst.(1) <- 0.;
-    dst.(2) <- 0.;
-    dst.(3) <- 1.;
-    for i = 4 to n-1 do
-      dst.(i) <- 0.
-    done
+  dst.(0) <- 0.;
+  dst.(1) <- 0.;
+  dst.(2) <- 0.;
+  dst.(3) <- 1.;
+  for i = 4 to n-1 do
+    dst.(i) <- 0.
+  done
 
 (*------------------------------------*)
 
 let dot a b =
   match dim a with
-      0 -> 0.
-    | 1 -> a.(0)*.b.(0)
-    | 2 -> a.(0)*.b.(0) +.a.(1)*.b.(1)
-    | 3 -> a.(0)*.b.(0) +.a.(1)*.b.(1) +.a.(2)*.b.(2)
-    | 4 -> a.(0)*.b.(0) +.a.(1)*.b.(1) +.a.(2)*.b.(2) +.a.(3)*.b.(3)
-    | n ->
-	let r = [|0.|] in
-	  for i = 0 to n-1 do
-	    r.(0) <- r.(0) +. a.(i)*.b.(i)
-	  done;
-	  r.(0)
-	    
+    0 -> 0.
+  | 1 -> a.(0)*.b.(0)
+  | 2 -> a.(0)*.b.(0) +.a.(1)*.b.(1)
+  | 3 -> a.(0)*.b.(0) +.a.(1)*.b.(1) +.a.(2)*.b.(2)
+  | 4 -> a.(0)*.b.(0) +.a.(1)*.b.(1) +.a.(2)*.b.(2) +.a.(3)*.b.(3)
+  | n ->
+    let r = [|0.|] in
+    for i = 0 to n-1 do
+      r.(0) <- r.(0) +. a.(i)*.b.(i)
+    done;
+    r.(0)
+      
 let magnitude_squared a =
   dot a a
 
@@ -187,85 +187,85 @@ let magnitude a =
 
 let ref_trans1 op1' v = 
   let c = zeroed v in
-    op1' v c;
-    c
+  op1' v c;
+  c
 
 let ref_trans2 op2' a b =
   let c = zeroed a in
-    op2' a b c;
-    c
+  op2' a b c;
+  c
 
 (*------------------------------------*)
 
 let neg' a dst =
   let n = dim dst in
-    for i = 0 to n-1 do
-      dst.(i) <- ~-. (a.(i))
-    done
+  for i = 0 to n-1 do
+    dst.(i) <- ~-. (a.(i))
+  done
 
 let sub' a b dst =
   let n = dim dst in
-    for i = 0 to n-1 do
-      dst.(i) <- a.(i) -. b.(i)
-    done
+  for i = 0 to n-1 do
+    dst.(i) <- a.(i) -. b.(i)
+  done
 
 let add' a b dst =
   let n = dim dst in
-    for i = 0 to n-1 do
-      dst.(i) <- a.(i) +. b.(i)
-    done
+  for i = 0 to n-1 do
+    dst.(i) <- a.(i) +. b.(i)
+  done
 
 let mul1' a s dst =
   let n = dim a in
-    for i = 0 to n-1 do
-      dst.(i) <- s*.a.(i)
-    done
+  for i = 0 to n-1 do
+    dst.(i) <- s*.a.(i)
+  done
 
 let mul1add' a s dst =
   let n = dim a in
-    assert (n > 0);
-    dst.(0) <- s*.a.(0);
-    for i = 1 to n-1 do
-      dst.(i) <- dst.(i) +. s*.a.(i)
-    done
+  assert (n > 0);
+  dst.(0) <- s*.a.(0);
+  for i = 1 to n-1 do
+    dst.(i) <- dst.(i) +. s*.a.(i)
+  done
 
 let mulvadd' a v dst =
   let n = dim a in
-    assert (n > 0);
-    dst.(0) <- a.(0)*.v.(0);
-    for i = 1 to n-1 do
-      dst.(i) <- dst.(i) +. a.(i)*.v.(i)
-    done
+  assert (n > 0);
+  dst.(0) <- a.(0)*.v.(0);
+  for i = 1 to n-1 do
+    dst.(i) <- dst.(i) +. a.(i)*.v.(i)
+  done
 
 let mulv' a b dst =
   let n = dim a in
-    for i = 0 to n-1 do
-      dst.(i) <- a.(i)*.b.(i)
-    done
+  for i = 0 to n-1 do
+    dst.(i) <- a.(i)*.b.(i)
+  done
 
 let min' a b dst =
   let n = dim a in
-    for i = 0 to n-1 do
-      let ai = a.(i)
-      and bi = b.(i)
-      in
-	if ai < bi then
-	  dst.(i) <- ai
-	else
-	  dst.(i) <- bi
-    done
+  for i = 0 to n-1 do
+    let ai = a.(i)
+    and bi = b.(i)
+    in
+    if ai < bi then
+      dst.(i) <- ai
+    else
+      dst.(i) <- bi
+  done
 
 let max' a b dst =
   let n = dim a in
-    for i = 0 to n-1 do
-      let ai = a.(i)
-      and bi = b.(i)
-      in
-	if ai > bi then
-	  dst.(i) <- ai
-	else
-	  dst.(i) <- bi
-    done
+  for i = 0 to n-1 do
+    let ai = a.(i)
+    and bi = b.(i)
+    in
+    if ai > bi then
+      dst.(i) <- ai
+    else
+      dst.(i) <- bi
+  done
 
 let neg  v   = ref_trans1 neg'  v
 let sub  a b = ref_trans2 sub'  a b
@@ -291,60 +291,60 @@ let cross a b =
       y = a.(2)*.b.(0) -. a.(0)*.b.(2) and
       z = a.(0)*.b.(1) -. a.(1)*.b.(0)
   in
-    make3 x y z
+  make3 x y z
 
 let invert' a dst =
   let invn2 = 1./.magnitude_squared a in
-    mul1' a invn2 dst
+  mul1' a invn2 dst
 
 let inverted a =
   let invn2 = 1./.magnitude_squared a in
-    mul1 a invn2
+  mul1 a invn2
 
 let normalize' a dst =
   let invn = 1./.magnitude a in
-    mul1' a invn dst
+  mul1' a invn dst
 
 let normalized a =
   let invn = 1./.magnitude a in
-    mul1 a invn
+  mul1 a invn
 
 let mid' a b dst =
   let n = dim dst in
-    for i = 0 to n-1 do
-      dst.(i) <- 0.5 *. (a.(i) +. b.(i))
-    done
+  for i = 0 to n-1 do
+    dst.(i) <- 0.5 *. (a.(i) +. b.(i))
+  done
 
 let lerp' ~t a b dst =
   let n = dim dst in
   let omt = 1. -. t in
-    for i = 0 to n-1 do
-      dst.(i) <- omt*.a.(i) +. t*.b.(i)
-    done
+  for i = 0 to n-1 do
+    dst.(i) <- omt*.a.(i) +. t*.b.(i)
+  done
 
 let minmax' a b dst1 dst2 =
   let n = dim a in
-    for i = 0 to n-1 do
-      let ai = a.(i) and bi = b.(i) in
-	if ai > bi then begin
-	  dst1.(i) <- bi;
-	  dst2.(i) <- ai
-	end else begin
-	  dst1.(i) <- ai;
-	  dst2.(i) <- bi
-	end
-    done
+  for i = 0 to n-1 do
+    let ai = a.(i) and bi = b.(i) in
+    if ai > bi then begin
+      dst1.(i) <- bi;
+      dst2.(i) <- ai
+    end else begin
+      dst1.(i) <- ai;
+      dst2.(i) <- bi
+    end
+  done
 
 let swz' v i c dst =
   match c with
-    | `x -> dst.(i) <- v.(0)
-    | `y -> dst.(i) <- v.(1)
-    | `z -> dst.(i) <- v.(2)
-    | `w -> dst.(i) <- v.(3)
-    | `nx -> dst.(i) <- ~-.(v.(0))
-    | `ny -> dst.(i) <- ~-.(v.(1))
-    | `nz -> dst.(i) <- ~-.(v.(2))
-    | `nw -> dst.(i) <- ~-.(v.(3))
+  | `x -> dst.(i) <- v.(0)
+  | `y -> dst.(i) <- v.(1)
+  | `z -> dst.(i) <- v.(2)
+  | `w -> dst.(i) <- v.(3)
+  | `nx -> dst.(i) <- ~-.(v.(0))
+  | `ny -> dst.(i) <- ~-.(v.(1))
+  | `nz -> dst.(i) <- ~-.(v.(2))
+  | `nw -> dst.(i) <- ~-.(v.(3))
 
 let swizzle2' c0 c1 v dst =
   assert(v != dst);
@@ -372,23 +372,23 @@ let lerped ~t a b = ref_trans2 (lerp' ~t) a b
 
 let minmax a b =
   let c = copied a and d = copied b in
-    minmax' a b c d;
-    (c, d)
+  minmax' a b c d;
+  (c, d)
 
 let swizzled2 c0 c1 v =
   let c = copied v in
-    swizzle2' c0 c1 v c;
-    c
+  swizzle2' c0 c1 v c;
+  c
 
 let swizzled3 c0 c1 c2 v =
   let c = copied v in
-    swizzle3' c0 c1 c2 v c;
-    c
+  swizzle3' c0 c1 c2 v c;
+  c
 
 let swizzled4 c0 c1 c2 c3 v =
   let c = copied v in
-    swizzle4' c0 c1 c2 c3 v c;
-    c
+  swizzle4' c0 c1 c2 c3 v c;
+  c
 
 (*------------------------------------*)
 
@@ -401,12 +401,12 @@ let fold f a =
 let fold2 f a b z =
   let rec iter i s =
     match i with
-      | 0 -> s
-      | i ->
-	  let i = i-1 in
-	    iter i (f a.(i) b.(i) s)
+    | 0 -> s
+    | i ->
+      let i = i-1 in
+      iter i (f a.(i) b.(i) s)
   in
-    iter (dim a) z
+  iter (dim a) z
 
 (*------------------------------------*)
 
@@ -415,15 +415,15 @@ open Hopp
 
 let print fmt v =
   let n = dim v in
-    pp_open_lbox fmt "[|";
-    for i = 0 to n-1 do
-      if i > 0 then begin
-	pp_print_string fmt ";";
-	pp_print_cut fmt ()
-      end;
-      fprintf fmt "%12.6g" v.(i)
-    done;
-    pp_close_lbox fmt "|]"
+  pp_open_lbox fmt "[|";
+  for i = 0 to n-1 do
+    if i > 0 then begin
+      pp_print_string fmt ";";
+      pp_print_cut fmt ()
+    end;
+    fprintf fmt "%12.6g" v.(i)
+  done;
+  pp_close_lbox fmt "|]"
 
 let to_string v = pp_make_to_string print v
 
@@ -433,89 +433,73 @@ let is_equal ~eps a b =
   if a == b then true else
     try
       let n = dim a in
-	for i = 0 to n-1 do 
-	  if not (Flt.is_equal eps a.(i) b.(i)) then
-	    raise Break
-	done;
-	true
+      for i = 0 to n-1 do 
+	if not (Flt.is_equal eps a.(i) b.(i)) then
+	  raise Break
+      done;
+      true
     with
-	Break -> false
+      Break -> false
 
 let is_zero ~eps a =
   try
     let n = dim a in
-      for i = 0 to n-1 do
-	if not (Flt.is_equal eps a.(i) 0.) then
-	  raise Break
-      done;
-      true
+    for i = 0 to n-1 do
+      if not (Flt.is_equal eps a.(i) 0.) then
+	raise Break
+    done;
+    true
   with
-      Break -> false
+    Break -> false
 
 let is_uniform a x =
   try
     let n = dim a in
-      for i = 0 to n-1 do
-	if not (a.(i) = x) then
-	  raise Break
-      done;
-      true
+    for i = 0 to n-1 do
+      if not (a.(i) = x) then
+	raise Break
+    done;
+    true
   with
-      Break -> false
+    Break -> false
 
 let random_unit ?(state=Rnd.default_state) d =
   let v = make d in
   let rec search () =
     let n = dim v in
-      for i = 0 to n-1 do
-	set' v i (1. -. Rnd.float state 2.)
-      done;
-      let m = magnitude v in
-	if m > Flt.epsilon then begin
-	  mul1' v (1./.m) v;
-	  v
-	end else
-	  search ()
+    for i = 0 to n-1 do
+      set' v i (1. -. Rnd.float state 2.)
+    done;
+    let m = magnitude v in
+    if m > Flt.epsilon then begin
+      mul1' v (1./.m) v;
+      v
+    end else
+      search ()
   in
-    search ()
+  search ()
 
 let random ?(state=Rnd.default_state) ?lower ?upper d =
   let lower = Option.may_default zero d lower in
   let upper = Option.may_default one d upper in
   let v = make d in
   let n = N.int d in
-    for i = 0 to n-1 do
-      let l = lower.(i) in
-      let u = upper.(i) in
-	v.(i) <- Rnd.float state (u -. l) +. l
-    done;
-    v
+  for i = 0 to n-1 do
+    let l = lower.(i) in
+    let u = upper.(i) in
+    v.(i) <- Rnd.float state (u -. l) +. l
+  done;
+  v
 
 let random_gaussian ?(state=Rnd.default_state) ?mu ?sigma d =
   let mu = Option.may_default zero d mu in
   let sigma = Option.may_default one d sigma in
   let v = make d in
   let n = N.int d in
-  let rec loop i =
-    let g1, g2 = Rnd.box_mueller state in
-      if i < n then begin
-	let mu = mu.(i) in
-	let sigma = sigma.(i) in
-	  v.(i) <-  g1 *. sigma +. mu
-      end;
-      let i = i + 1 in
-	if i < n then begin
-	  let mu = mu.(i)  in
-	  let sigma = sigma.(i) in
-	    v.(i) <- g2 *. sigma +. mu
-	end;
-	let i = i + 1 in
-	  if i < n then
-	    loop i
-	  else
-	    v
-  in
-    loop 0
+  for i = 0 to n-1 do
+    v.(i) <- Rnd.gaussian state ~mu:mu.(i) ~sigma:sigma.(i) ()
+  done;
+  v
 
 (*----------------------------------------------------------------------------*)
 
@@ -533,9 +517,9 @@ let test_vector_d d =
   (sprintf "D%d" (N.int d)) >::: [
     "one, inversed" >:: begin fun _ ->
       let one = one d in
-	test_equal
-	  "(inverted (inverted one)) = one"
-	  (inverted (inverted one)) one
+      test_equal
+	"(inverted (inverted one)) = one"
+	(inverted (inverted one)) one
     end
   ]
 
@@ -547,9 +531,9 @@ let test_vector_2 =
 	swizzled2 `ny`x 
 	  (swizzled2 `y`nx v)
       in
-	test_equal
-	  "swizzled^2 == id"
-	  u v
+      test_equal
+	"swizzled^2 == id"
+	u v
     end
   ]
 
@@ -563,9 +547,9 @@ let test_vector_3 =
 	     (swizzled3 `nz`x`y
 		(swizzled3 `z`nx`y v)))
       in
-	test_equal
-	  "swizzled^3 == id"
-	  u v
+      test_equal
+	"swizzled^3 == id"
+	u v
     end
   ]
 
@@ -579,9 +563,9 @@ let test_vector_4 =
 	     (swizzled4 `nw`nz`ny`nx 
 		(swizzled4 `y`x`w`z v)))
       in
-	test_equal
-	  "swizzled^4 == id"
-	  u v
+      test_equal
+	"swizzled^4 == id"
+	u v
     end
   ]
 

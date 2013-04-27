@@ -1,0 +1,2 @@
+#!/bin/sh
+ocamlbuild -use-ocamlfind -pkg ounit ocamleuclid.top && ./ocamleuclid.top -I _build
