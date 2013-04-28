@@ -1,7 +1,7 @@
 Core
-ATransform
+Transform
+Box
 Angle
-GeomOpt
 Hopp
 Interval
 Math
@@ -14,10 +14,7 @@ Quaternion
 Rnd
 Vector
 
-#Aabb
-#AffineTransformation
-#Boundaries
-#BoundingBoxAA2D
+#GeomOpt
 #Geom2D
 #Geom3D
 #Halfspace2D
