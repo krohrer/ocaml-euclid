@@ -1,8 +1,8 @@
 top:
-	ocamlbuild -use-ocamlfind ocamleuclid.top
+	ocamlbuild -use-ocamlfind -pkg ounit ocamleuclid.top
 
 run:
-	ocamlbuild -use-ocamlfind euclid.native && ./euclid.native
+	ocamlbuild -use-ocamlfind -pkg ounit euclid.native && ./euclid.native
 
 test:
-	ocamlbuild -use-ocamlfind -pkg oUnit euclidtest.native && ./euclidtest.native
+	ocamlbuild -use-ocamlfind -pkg ounit euclidtest.native && ./euclidtest.native
