@@ -1,18 +1,20 @@
 Core
-Transform
-Box
-Angle
 Hopp
-Interval
-Math
-Matrix
-N
-PVector
-Point
-Polygon
-Quaternion
 Rnd
-Vector
+
+# Transform
+# Box
+# Angle
+# Hopp
+# Interval
+# Math
+# Matrix
+# N
+# PVector
+# Point
+# Polygon
+# Quaternion
+# Vector
 
 #GeomOpt
 #Geom2D

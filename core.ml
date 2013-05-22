@@ -32,8 +32,5 @@ struct
   let may_default f x opt =
     match opt with None -> f x | Some y -> y
 
-  let print pr fmt =
-    function
-      | None -> Format.pp_print_string fmt "None"
-      | Some v -> ()
+  let print pr fmt o = Hopp.pp_print_option pr fmt o
 end
