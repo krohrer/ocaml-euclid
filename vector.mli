@@ -32,9 +32,9 @@ val make4 : float -> float -> float -> float -> (_,N._4) t
 val zero : 'n N.t -> (_,'n) t
 val one : 'n N.t -> (_,'n) t
 
-val random : ?state:Rnd.state -> ?lower:(_,'n) t -> ?upper:(_,'n) t -> 'n N.t -> (_,'n) t
-val random_unit : ?state:Rnd.state -> 'n N.t -> (_,'n) t
-val random_gaussian : ?state:Rnd.state -> ?mu:(_,'n) t -> ?sigma:(_,'n) t -> 'n N.t -> (_,'n) t
+val random : ?state:Rnd.t -> ?lower:(_,'n) t -> ?upper:(_,'n) t -> 'n N.t -> (_,'n) t
+val random_unit : ?state:Rnd.t -> 'n N.t -> (_,'n) t
+val random_gaussian : ?state:Rnd.t -> ?mu:(_,'n) t -> ?sigma:(_,'n) t -> 'n N.t -> (_,'n) t
 
 val fill' : float -> (ephemeral,_) t -> unit
 val zero' : (ephemeral,_) t -> unit
