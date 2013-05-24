@@ -1,14 +1,13 @@
-type state = Random.State.t
+module R = Random.State
 
-let make_state = Random.State.make_self_init
-let make_state_with_seed = Random.State.make
+include R
 
-let default_state = make_state ()
+let make ?seed () =
+  match seed with
+  | Some s -> R.make s
+  | None -> R.make_self_init ()
 
-let copy = Random.State.copy
-let int = Random.State.int
-let float = Random.State.float
-let bool = Random.State.bool
+let default = make ()
 
 module BoxMueller =
   struct
