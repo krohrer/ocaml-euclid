@@ -1,14 +1,3 @@
-(** {6 Pervasives} *)
-
-exception Conversion of string
-exception Break
-exception Canceled
-
-(** phantom type to indicate mutability *)
-type ephemeral
-(** phantom type to indicate immutability *)
-type persistent
-
 (** {6 Option} *)
 
 module Option :
@@ -23,3 +12,11 @@ sig
 
   val print : (Format.formatter -> 'a -> unit) -> Format.formatter -> 'a t -> unit
 end
+
+(** {6 Fast float arrays} *)
+
+val alloc_float_array : int -> float array
+
+(** {6 Base types} *)
+
+

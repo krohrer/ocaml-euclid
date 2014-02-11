@@ -1,9 +1,3 @@
-exception Conversion of string
-exception Break
-exception Canceled
-
-(*------------------------------------*)
-
 type ephemeral
 type persistent
 
@@ -34,3 +28,11 @@ struct
 
   let print pr fmt o = Hopp.pp_print_option pr fmt o
 end
+
+(*------------------------------------*)
+
+let words_per_float = 64 / Sys.word_size
+
+let alloc_float_array n =
+  let words = n * words_per_float in
+  Obj.obj (Obj.new_block Obj.double_array_tag words)
