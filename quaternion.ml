@@ -244,7 +244,7 @@ let test_equal msg a b =
   let a = __magic__ a in
     OUnit.assert_equal
       ~msg
-      ~cmp:(is_equal ~eps:Flt.delta)
+      ~cmp:(is_equal ~eps:Scalar.delta)
       a b
 
 let unit_test =
@@ -252,8 +252,8 @@ let unit_test =
     "axis_rotation" >:: begin fun _ ->
       let q = axis_rotation (V.make3 2. 1. 3.) (Angle.degree 65.) in
       let r = axis_rotation (V.make3 2. 1. 3.) (Angle.degree (-65.)) in
-	Flt.test_equal "(magnitude q) 1." (magnitude q) 1.;
-	Flt.test_equal "(magnitude r) 1." (magnitude r) 1.;
+	Scalar.test_equal "(magnitude q) 1." (magnitude q) 1.;
+	Scalar.test_equal "(magnitude r) 1." (magnitude r) 1.;
 	test_equal "(conjugated q) r" (conjugated q) r
     end;
     "random_unit, normalized" >:: begin fun _ ->

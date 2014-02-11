@@ -62,7 +62,7 @@ val add_points : t -> point list -> t
 
 val clamp_point : t -> point -> point
 
-val classify_point : t -> point -> Flt.fcmp
+val classify_point : t -> point -> Scalar.fcmp
 val contains_point : t -> point -> bool
 
 (*----------------------------------------------------------------------------*)

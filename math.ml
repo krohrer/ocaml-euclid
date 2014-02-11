@@ -35,13 +35,13 @@ let binsearchi ~f ~x0 ~x1 y =
 	else
 	  iter x0 x1
 
-let binsearchf ?(eps=Flt.epsilon) ?(n=53) ~f ~x0 ~x1 y =
+let binsearchf ?(eps=Scalar.epsilon) ?(n=53) ~f ~x0 ~x1 y =
   let rec iter x0 x1 i =
     let xm = (x0 +. x1) *. 0.5 in
       if x0 < xm && xm < x1 && i < n then (
 	(* to boldly go ... *)
 	let ym = f xm in
-	  match Flt.compare ~eps ym y with
+	  match Scalar.compare ~eps ym y with
 	    | `L  -> iter xm x1 (i + 1)
 	    | `EQ -> xm
 	    | `G  -> iter x0 xm (i + 1)

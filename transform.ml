@@ -220,7 +220,7 @@ open Printf
 let test_equal msg a b =
   assert_equal
     ~msg
-    ~cmp:(is_equal ~eps:Flt.delta)
+    ~cmp:(is_equal ~eps:Scalar.delta)
     ~printer:to_string
     (__magic__ a) b
 

@@ -154,14 +154,14 @@ let contains ~eps i k =
 	  false
       | _, _ -> true
 
-let binary_search ?(n=23) ?(eps=Flt.epsilon) ~f ~range y =
+let binary_search ?(n=23) ?(eps=Scalar.epsilon) ~f ~range y =
   let rec iter i x0 x1 =
     let xm = 0.5 *. (x0 +. x1) in
       if i > 0 then
 	if x0 = xm && xm = x1 then
 	  xm
 	else
-	  match Flt.compare ~eps (f xm) y with
+	  match Scalar.compare ~eps (f xm) y with
 	    | `L -> iter (pred i) x0 xm
 	    | `EQ -> xm
 	    | `G -> iter (pred i) xm x1
@@ -196,7 +196,7 @@ let test_equal msg a b =
   (** Needs cast because of assert_equal*)
   assert_equal
     ~msg
-    ~cmp:(is_equal ~eps:Flt.delta)
+    ~cmp:(is_equal ~eps:Scalar.delta)
     ~printer:to_string
     (__magic__ a) b
 

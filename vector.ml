@@ -76,7 +76,7 @@ let from_array a d =
   else
     invalid_arg "Vector.from_array: mismatched size."
 
-external __repr__ : 'n N.t -> float array = "%identity"
+external __repr__ : 'n t -> float array = "%identity"
 
 (*------------------------------------*)
 

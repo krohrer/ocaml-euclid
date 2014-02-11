@@ -48,7 +48,7 @@ let to_string = pp_make_to_string print
 
 (*------------------------------------*)
 
-let is_equal = Flt.is_equal
+let is_equal = Scalar.is_equal
 
 let random ?(state=Rnd.default_state) ?(range=full_circle) () =
   Rnd.float state range
@@ -60,7 +60,7 @@ open OUnit
 let test_equal msg a b  =
   assert_equal
     ~msg
-    ~cmp:(is_equal ~eps:Flt.delta)
+    ~cmp:(is_equal ~eps:Scalar.delta)
     ~printer:to_string
     a b
 

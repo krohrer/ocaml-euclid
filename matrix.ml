@@ -447,7 +447,7 @@ let is_zero ~eps a =
 	let a_i = a.(i)
 	in
 	  for k = 0 to n-1 do
-	    if not (Flt.is_zero ~eps a_i.(k)) then
+	    if not (Scalar.is_zero ~eps a_i.(k)) then
 	      raise Break
 	  done
       done;
@@ -465,7 +465,7 @@ let is_equal ~eps a b =
 	  and b_i = b.(i)
 	  in
 	    for k = 0 to n-1 do
-	      if not (Flt.is_equal eps a_i.(k) b_i.(k)) then
+	      if not (Scalar.is_equal eps a_i.(k) b_i.(k)) then
 		raise Break
 	    done
 	done;
@@ -480,7 +480,7 @@ let is_identity ~eps a =
 	let a_i = a.(i) in
 	  for k = 0 to n-1 do
 	    let x = if k = i then 1. else 0. in
-	      if not (Flt.is_equal eps a_i.(k) x) then
+	      if not (Scalar.is_equal eps a_i.(k) x) then
 		raise Break
 	  done
       done;
@@ -527,7 +527,7 @@ let random_invertible ?(state=Rnd.default_state) dn =
 	  set' a i k (1. -. Rnd.float state 2.)
 	done
       done;
-      if det a > Flt.delta then
+      if det a > Scalar.delta then
 	a
       else
 	search ()
@@ -540,7 +540,7 @@ open OUnit
 open Printf
 
 let test_equal msg a b =
-  let cmp c d = is_equal ~eps:Flt.delta c d in
+  let cmp c d = is_equal ~eps:Scalar.delta c d in
   let printer c = to_string c in
     assert_equal ~msg ~cmp ~printer a b
 

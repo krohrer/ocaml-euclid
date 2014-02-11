@@ -181,22 +181,22 @@ let classify_value ~eps i v =
   if is_nothing i then
     `Nothing
   else
-    match Flt.compare ~eps i.lower v with
+    match Scalar.compare ~eps i.lower v with
       |  `L -> `Below
       | `EQ -> `Lower
       |  `G ->
-	   match Flt.compare ~eps i.upper v with
+	   match Scalar.compare ~eps i.upper v with
 	     |  `L -> `Inside
 	     | `EQ -> `Upper
 	     |  `G -> `Above
 
-let binary_search_strictly_increasing ?(n=23) ?(eps=Flt.epsilon) ~f range y =
+let binary_search_strictly_increasing ?(n=23) ?(eps=Scalar.epsilon) ~f range y =
   let rec iter i x0 x1 =
     let xm = 0.5 *. (x0 +. x1) in    if i > 0 then
 	if x0 = xm && xm = x1 then
 	  xm
 	else
-	  match Flt.compare ~eps (f xm) y with
+	  match Scalar.compare ~eps (f xm) y with
 	    | `L -> iter (pred i) x0 xm
 	    | `EQ -> xm
 	    | `G -> iter (pred i) xm x1
@@ -211,8 +211,8 @@ let binary_search_strictly_increasing ?(n=23) ?(eps=Flt.epsilon) ~f range y =
 let is_equal ~eps i k =
   (is_nothing i &&
      is_nothing k) ||
-    (Flt.is_equal ~eps i.lower k.lower &&
-       Flt.is_equal ~eps i.upper k.upper)
+    (Scalar.is_equal ~eps i.lower k.lower &&
+       Scalar.is_equal ~eps i.upper k.upper)
 
 (*----------------------------------------------------------------------------*)
 
@@ -243,12 +243,12 @@ let test_equal msg a b =
   (** Needs cast because of assert_equal*)
   assert_equal
     ~msg
-    ~cmp:(is_equal ~eps:Flt.delta)
+    ~cmp:(is_equal ~eps:Scalar.delta)
     ~printer:to_string
     (__magic__ a) b
 
 let test_binop f (msg,a,b,r) =
-  assert_equal ~msg ~cmp:(is_equal ~eps:Flt.delta) ~printer:to_string (f a b) r
+  assert_equal ~msg ~cmp:(is_equal ~eps:Scalar.delta) ~printer:to_string (f a b) r
 
 let test_binpred p (msg,a,b,r) =
   assert_bool msg ((p a b) == r)

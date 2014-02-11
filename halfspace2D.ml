@@ -86,7 +86,7 @@ let point_offset h p =
   (cx h) *. (V.x p) +. (cy h) *. (V.y p) +. (cd h)
 
 let classify_point ~eps h p =
-  Flt.compare_with_zero ~eps (point_offset h p)
+  Scalar.compare_with_zero ~eps (point_offset h p)
     
 let project_point h p =
   let dp =  point_offset h p in
