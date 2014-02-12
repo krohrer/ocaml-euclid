@@ -5,21 +5,17 @@ type 'n t
 (** {6 Helper types} *)
 (*----------------------------------------------------------------------------*)
 
-(** 1D Swizzling *)
-type swz1 = [`x|`nx]
-(** 2D Swizzling *)
-type swz2 = [`y|`ny|swz1]
-(** 3D Swizzling *)
-type swz3 = [`z|`nz|swz2]
-(** 4D Swizzling *)
-type swz4 = [`w|`nw|swz3]
+type c1 = [`x]
+type c2 = [`x|`y]
+type c3 = [`x|`y|`z]
+type c4 = [`x|`y|`z|`w]
 
 (** {6 Creation / Initialization} *)
 (*----------------------------------------------------------------------------*)
 
-(** [V.make ?init dim] creates a new vector of dimension [dim] with
-    its elements set to [init] *)
-val make : (int -> float) -> 'n N.t -> 'n t
+val init : 'n N.t -> (int -> float) -> 'n t
+val fill : 'n N.t -> float -> 'n t
+
 val make1 : float -> N._1 t
 val make2 : float -> float -> N._2 t
 val make3 : float -> float -> float -> N._3 t
@@ -50,7 +46,7 @@ val from_array : float array -> 'n N.t -> 'n t
 (** {6 Representation} *)
 (*----------------------------------------------------------------------------*)
 
-external __repr__ : 'n t -> float array = "%identity"
+external __repr__ : 'n t -> ImpVec.t = "%identity"
 
 (** {6 Access} *)
 (*----------------------------------------------------------------------------*)
@@ -98,9 +94,9 @@ val mid		: 'n t -> 'n t -> 'n t
 val lerp 	: t:float -> 'n t -> 'n t -> 'n t
 val minmax 	: 'n t -> 'n t -> 'n t * 'n t
 
-val swizzle2 : swz2 -> swz2 -> N._2 t -> N._2 t
-val swizzle3 : swz3 -> swz3 -> swz3 -> N._3 t -> N._3 t
-val swizzle4 : swz4 -> swz4 -> swz4 -> swz4 -> N._3 t -> N._3 t
+val swizzle2 : c2 -> c2 -> N._2 t -> N._2 t
+val swizzle3 : c3 -> c3 -> c3 -> N._3 t -> N._3 t
+val swizzle4 : c4 -> c4 -> c4 -> c4 -> N._3 t -> N._3 t
 
 val len : 'n t -> float
 val lensq : 'n t -> float
@@ -117,16 +113,8 @@ val is_zero : Float.eps -> 'n t -> bool
 val to_string : _ t -> string
 val print : Format.formatter -> _ t -> unit
 
-(** {6 Unsafe mutable operations} *)
-(*----------------------------------------------------------------------------*)
-
-module Unsafe :
-  sig
-    
-  end
-
 (** {6 Unit testing} *)
 (*----------------------------------------------------------------------------*)
 
-val test_equal : string -> 'n t -> 'n t -> unit
-val unit_test : OUnit.test
+(* val test_equal : string -> 'n t -> 'n t -> unit *)
+(* val unit_test : OUnit.test *)
