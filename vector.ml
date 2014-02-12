@@ -165,10 +165,10 @@ let swizzle4 cx cy cz cw =
 
 let mask2 cx cy =
   purify2n ~n:2 (Imp.mask2 cx cy)
-let mask2 cx cy cz =
-  purify2n ~n:2 (Imp.mask3 cx cy cz)
-let mask2 cx cy cz cw =
-  purify2n ~n:2 (Imp.mask4 cx cy cz cw)
+let mask3 cx cy cz =
+  purify2n ~n:3 (Imp.mask3 cx cy cz)
+let mask4 cx cy cz cw =
+  purify2n ~n:4 (Imp.mask4 cx cy cz cw)
 
 (*------------------------------------*)
 

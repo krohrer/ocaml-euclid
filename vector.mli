@@ -90,13 +90,18 @@ val cross : N._3 t -> N._3 t -> N._3 t
 
 val normalize	: 'n t -> 'n t
 
-val mid		: 'n t -> 'n t -> 'n t
-val lerp 	: t:float -> 'n t -> 'n t -> 'n t
-val minmax 	: 'n t -> 'n t -> 'n t * 'n t
+val mid	 : 'n t -> 'n t -> 'n t
+val lerp : t:float -> 'n t -> 'n t -> 'n t
+
+val minmax : 'n t -> 'n t -> 'n t * 'n t
 
 val swizzle2 : c2 -> c2 -> N._2 t -> N._2 t
 val swizzle3 : c3 -> c3 -> c3 -> N._3 t -> N._3 t
 val swizzle4 : c4 -> c4 -> c4 -> c4 -> N._3 t -> N._3 t
+
+val mask2 : bool -> bool -> N._2 t -> N._2 t -> N._2 t
+val mask3 : bool -> bool -> bool -> N._4 t -> N._4 t -> N._4 t
+val mask4 : bool -> bool -> bool -> bool -> N._4 t -> N._4 t -> N._4 t
 
 val len : 'n t -> float
 val lensq : 'n t -> float
@@ -112,9 +117,3 @@ val is_zero : Float.eps -> 'n t -> bool
 
 val to_string : _ t -> string
 val print : Format.formatter -> _ t -> unit
-
-(** {6 Unit testing} *)
-(*----------------------------------------------------------------------------*)
-
-(* val test_equal : string -> 'n t -> 'n t -> unit *)
-(* val unit_test : OUnit.test *)
