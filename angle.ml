@@ -1,96 +1,49 @@
-open Core
+type rad
+type deg
+type 'a t = float
 
-type t = float
+let half_pi = acos 0.
+let pi = 2. *. half_pi
+let tau = 4. *. half_pi
 
-let pi_h = acos 0.
-let degree_of_radian x = x *. 90. /. pi_h
-let radian_of_degree x = x *. pi_h /. 90.
+let half_circle = 180.
+let full_circle = 360.
 
-let degree d:float = d
-let to_degree a:t = a
+external rad : float -> rad t = "%identity"
+external deg : float -> deg t = "%identity"
 
-let radian r = degree_of_radian r
-let to_radian a = radian_of_degree a
+external rad_as_float : rad t -> float = "%identity"
+external deg_as_float : deg t -> float = "%identity"
 
-let zero = 0.
+let rad_to_deg x = x *. 180. /. pi
+let deg_to_rad x = x *. pi /. 180.
 
-let half_circle = degree 180.
-let full_circle = degree 360.
+let normalize ~period a =
+  let n = mod_float a period in
+  if n >= 0. then n else n +. period
 
-let neg = ( ~-. )
-let sub = ( -. )
-let add = ( +. )
-let mul = ( *. )
-let div = ( /. )
+let min a b = if a <= b then a else b
+let max a b = if a <= b then b else a
 
-let sin a = sin (to_radian a)
-let cos a = cos (to_radian a)
-let tan a = tan (to_radian a)
+external ( ~- ) : 'a t -> 'a t = "%negfloat"
+external ( +  ) : 'a t -> 'a t -> 'a t = "%identity"
+external ( -  ) : 'a t -> 'a t -> 'a t = "%identity"
+external ( *. ) : float-> 'a t -> 'a t = "%mulfloat"
+external ( /. ) : 'a t -> float-> 'a t = "%divfloat"
 
-let asin a = radian (asin a)
-let acos a = radian (acos a)
-let atan a = radian (atan a)
+external abs : 'a t -> 'a t = "%absfloat"
 
-let normalize a =
-  let d = to_degree a in
-  let n = mod_float d 360. in
-    degree (if n >= 0. then n else n +. 360.)
- 
-(*------------------------------------*)
+external acos : float -> rad t = "caml_acos_float" "acos" "float"
+external asin : float -> rad t = "caml_asin_float" "asin" "float"
+external atan : float -> rad t = "caml_atan_float" "atan" "float"
+external atan2 : float -> float -> rad t = "caml_atan2_float" "atan2" "float"
 
-open Format
-open Hopp
+external cos : rad t -> float = "caml_cos_float" "cos" "float"
+external sin : rad t -> float = "caml_sin_float" "sin" "float"
+external tan : rad t -> float = "caml_tan_float" "tan" "float"
 
-let print fmt angle =
-  fprintf fmt "%f degree" (to_degree angle)
-
-let to_string = pp_make_to_string print
-
-(*------------------------------------*)
-
-let is_equal = Scalar.is_equal
-
-let random ?(state=Rnd.default_state) ?(range=full_circle) () =
-  Rnd.float state range
-
-(*----------------------------------------------------------------------------*)
-
-open OUnit
-
-let test_equal msg a b  =
-  assert_equal
-    ~msg
-    ~cmp:(is_equal ~eps:Scalar.delta)
-    ~printer:to_string
-    a b
-
-let unit_test =
-  "Angle" >::: [
-    "random, degree, degree_of_radian, to_radian" >:: begin fun _ ->
-      let a = random () in
-	test_equal "degree (degree_of_radian (to_radian a)) == a"
-	  (degree (degree_of_radian (to_radian a)))
-	  a
-    end;
-    "random, radian, radian_of_degree, to_degree" >:: begin fun _ ->
-      let a = random () in
-	test_equal "degree (to_degree a) == a" a (degree (to_degree a))
-    end;
-    "random, mul, div" >:: begin fun _ ->
-      let a = random () in
-	test_equal "mul (div a 2.) 2. == a" a (mul (div a 2.) 2.)
-    end;
-    "random, add, sub, neg" >:: begin fun _ ->
-      let a = random () in
-	test_equal "add a (neg a) = sub a a" 
-	  (add a (neg a))
-	  (sub a a)
-    end;
-    "normalize, full_circle, zero" >:: begin fun _ ->
-      test_equal "normalize full_circle == zero"
-	(normalize full_circle)
-	zero
-    end;
-  ]
-
-(*----------------------------------------------------------------------------*)
+external ( <  ) : 'a t -> 'a t -> bool = "%lessthan"
+external ( >  ) : 'a t -> 'a t -> bool = "%greaterthan"
+external ( <= ) : 'a t -> 'a t -> bool = "%lessequal"
+external ( >= ) : 'a t -> 'a t -> bool = "%greaterequal"
+external compare : 'a t -> 'a t -> int = "%compare"
