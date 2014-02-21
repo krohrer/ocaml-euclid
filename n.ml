@@ -1,5 +1,4 @@
 type zero
-type 'a t = int
 type 'a s
 
 type 'a s0 = 'a
@@ -13,6 +12,8 @@ type 'a s7 = 'a s s s s s s s
 type 'a s8 = 'a s s s s s s s s
 type 'a s9 = 'a s s s s s s s s s
 type 'a s10 = 'a s s s s s s s s s s
+
+type 'a t = int
 
 type _0 = zero s0
 type _1 = zero s1
@@ -28,26 +29,58 @@ type _10 = zero s10
 
 (*------------------------------------*)
 
-let unary k = k 0
-let i n k = k (n + 1)
-let num n = n
 let int d = d
 let __num_of_int__ d = d
 
-let _0 = __num_of_int__ 0
-let _1 = __num_of_int__ 1
-let _2 = __num_of_int__ 2
-let _3 = __num_of_int__ 3
-let _4 = __num_of_int__ 4
-let _5 = __num_of_int__ 5
-let _6 = __num_of_int__ 6
-let _7 = __num_of_int__ 7
-let _8 = __num_of_int__ 8
-let _9 = __num_of_int__ 9
-let _10 = __num_of_int__ 10
+let unary k = k 0
+let i n k = k (n + 1)
+let num n = n
+
+let _0	= unary num
+let _1	= unary i num
+let _2	= unary i i num
+let _3	= unary i i i num
+let _4	= unary i i i i num
+let _5	= unary i i i i i num
+let _6	= unary i i i i i i num
+let _7	= unary i i i i i i i num
+let _8	= unary i i i i i i i i num
+let _9	= unary i i i i i i i i i num
+let _10 = unary i i i i i i i i i i num
 
 let pred n = n-1
 let s n = n+1
+
+module Pack2 =
+  struct
+    type ('a,'b) p = int
+    let make n1 n2 =
+      assert (n1 <= 0xFF && n2 <= 0xFF);
+      (n2 lsl 8) lor n1
+
+    let fst nn =
+      nn land 0xFF
+
+    let snd nn =
+      (nn lsr 8) land 0xFF
+  end
+
+module Pack3 =
+  struct
+    type ('a,'b,'c) p = int
+    let make n1 n2 n3 =
+      assert (n1 <= 0xFF && n2 <= 0xFF && n3 <= 0xFF);
+      (n3 lsl 16) lor (n2 lsl 8) lor n1
+
+    let fst nn =
+      nn land 0xFF
+
+    let snd nn =
+      (nn lsr 8) land 0xFF
+
+    let trd nn =
+      (nn lsr 16) land 0xFF
+  end
 
 (*------------------------------------*)
 

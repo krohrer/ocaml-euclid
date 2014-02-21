@@ -4,7 +4,6 @@
 *)
 
 type zero
-type 'a t = private int
 type 'a s
 
 type 'a s0 = 'a
@@ -31,6 +30,8 @@ type _8 = zero s8
 type _9 = zero s9
 type _10 = zero s10
 
+type 'a t = private int
+
 val _0 : _0 t
 val _1 : _1 t
 val _2 : _2 t
@@ -43,12 +44,42 @@ val _8 : _8 t
 val _9 : _9 t
 val _10 : _10 t
 
-val unary : (zero t -> 'a) -> 'a
-val i     : 'a t -> ('a s t -> 'b) -> 'b
-val num   : 'a t -> 'a t
+(*------------------------------------*)
 
 val int : 'a t -> int
 val __num_of_int__ : int -> 'a t
+
+(*------------------------------------*)
+
+module Pack2 :
+  sig
+    type ('a,'b) p
+    val make : 'a t -> 'b t -> ('a,'b) p
+    val fst : ('a,_) p -> 'a t
+    val snd : (_,'b) p -> 'b t
+  end
+
+module Pack3 :
+  sig
+    type ('a,'b,'c) p
+    val make : 'a t -> 'b t -> 'c t -> ('a,'b,'c) p
+    val fst : ('a,_,_) p -> 'a t
+    val snd : (_,'b,_) p -> 'b t
+    val trd : (_,_,'c) p -> 'c t
+  end
+
+(*------------------------------------*)
+
+(* Number combinators
+  _0 = unary num
+  _1 = unary i num
+  _2 = unary i i num
+  _X = unary i ... i num
+*)
+
+val unary : (zero t -> 'a) -> 'a
+val i     : 'a t -> ('a s t -> 'b) -> 'b
+val num   : 'a t -> 'a t
 
 val pred : 'a s t -> 'a t
 val s : 'a t -> 'a s t
