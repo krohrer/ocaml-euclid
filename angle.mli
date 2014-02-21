@@ -1,4 +1,7 @@
-(** Strongly-typed angular measurement (either radians or degrees) *)
+(** Strongly-typed angular measurement (either radians or degrees)
+
+    This is a very light abstraction which should come with no
+    overhead when compared with raw floats. *)
 (*----------------------------------------------------------------------------*)
 
 type rad
@@ -48,8 +51,13 @@ external cos : rad t -> float = "caml_cos_float" "cos" "float"
 external sin : rad t -> float = "caml_sin_float" "sin" "float"
 external tan : rad t -> float = "caml_tan_float" "tan" "float"
 
-external ( <  ) : 'a t -> 'a t -> bool = "%lessthan"
-external ( >  ) : 'a t -> 'a t -> bool = "%greaterthan"
-external ( <= ) : 'a t -> 'a t -> bool = "%lessequal"
-external ( >= ) : 'a t -> 'a t -> bool = "%greaterequal"
+external ( <  )  : 'a t -> 'a t -> bool = "%lessthan"
+external ( >  )  : 'a t -> 'a t -> bool = "%greaterthan"
+external ( <= )  : 'a t -> 'a t -> bool = "%lessequal"
+external ( >= )  : 'a t -> 'a t -> bool = "%greaterequal"
 external compare : 'a t -> 'a t -> int = "%compare"
+
+(** {6 Printing} *)
+(*----------------------------------------------------------------------------*)
+
+val print : Format.formatter -> 'a t -> unit

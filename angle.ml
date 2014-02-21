@@ -47,3 +47,5 @@ external ( >  ) : 'a t -> 'a t -> bool = "%greaterthan"
 external ( <= ) : 'a t -> 'a t -> bool = "%lessequal"
 external ( >= ) : 'a t -> 'a t -> bool = "%greaterequal"
 external compare : 'a t -> 'a t -> int = "%compare"
+
+let print = Format.pp_print_float

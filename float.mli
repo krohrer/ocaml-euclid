@@ -18,6 +18,7 @@ external ( +  ) : float -> float -> float = "%addfloat"
 external ( -  ) : float -> float -> float = "%subfloat"
 external ( *  ) : float -> float -> float = "%mulfloat"
 external ( /  ) : float -> float -> float = "%divfloat"
+
 external f' : int -> float = "%floatofint"
 external i' : float -> int = "%intoffloat"
 external abs : float -> float = "%absfloat"
@@ -26,11 +27,17 @@ external ( mod ) : float -> float -> float = "caml_fmod_float" "fmod" "float"
 val min : float -> float -> float
 val max : float -> float -> float
 
+external ( <  )  : float -> float -> bool = "%lessthan"
+external ( >  )  : float -> float -> bool = "%greaterthan"
+external ( <= )  : float -> float -> bool = "%lessequal"
+external ( >= )  : float -> float -> bool = "%greaterequal"
+external compare : float -> float -> int = "%compare"
+
 (** Comparison *)
 (*----------------------------------------------------------------------------*)
 
-val compare_with_zero	: eps -> float ->          int
-val compare		: eps -> float -> float -> int
+val cmp_with_zero	: eps -> float ->          int
+val cmp			: eps -> float -> float -> int
 
 val is_equal	: eps -> float -> float -> bool
 val is_lt	: eps -> float -> float -> bool

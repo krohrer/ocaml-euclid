@@ -16,6 +16,7 @@ external ( +  ) : float -> float -> float = "%addfloat"
 external ( -  ) : float -> float -> float = "%subfloat"
 external ( *  ) : float -> float -> float = "%mulfloat"
 external ( /  ) : float -> float -> float = "%divfloat"
+
 external f' : int -> float = "%floatofint"
 external i' : float -> int = "%intoffloat"
 external abs : float -> float = "%absfloat"
@@ -29,7 +30,7 @@ let max a b = if a < b then b else a
 
 (*--------------------------------------------------------------------------*)
 
-let compare_with_zero eps d =
+let cmp_with_zero eps d =
   if d < -.eps then
     -1
   else if eps < d then
@@ -37,29 +38,37 @@ let compare_with_zero eps d =
   else
     0
 
-let compare eps a b =
+let cmp eps a b =
   a -. b
 
-let compare eps a b =
-  compare_with_zero eps (a -. b)
+let cmp eps a b =
+  cmp_with_zero eps (a -. b)
 
 let is_equal eps a b =
-  compare eps a b = 0
+  cmp eps a b = 0
 
 let is_lt eps a b =
-  compare eps a b < 0
+  cmp eps a b < 0
 
 let is_gt eps a b =
-  0 < compare eps a b
+  0 < cmp eps a b
 
 let is_zero eps a =
-  compare_with_zero eps a = 0
+  cmp_with_zero eps a = 0
 
 let is_negative eps a =
-  compare_with_zero eps a < 0
+  cmp_with_zero eps a < 0
 
 let is_positive eps a =
-  0 < compare_with_zero eps a
+  0 < cmp_with_zero eps a
+
+(*------------------------------------*)
+
+external ( <  )  : float -> float -> bool = "%lessthan"
+external ( >  )  : float -> float -> bool = "%greaterthan"
+external ( <= )  : float -> float -> bool = "%lessequal"
+external ( >= )  : float -> float -> bool = "%greaterequal"
+external compare : float -> float -> int = "%compare"
 
 (*------------------------------------*)
 
