@@ -46,27 +46,8 @@ val _10 : _10 t
 
 (*------------------------------------*)
 
-val int : 'a t -> int
-val __num_of_int__ : int -> 'a t
-
-(*------------------------------------*)
-
-module Pack2 :
-  sig
-    type ('a,'b) p
-    val make : 'a t -> 'b t -> ('a,'b) p
-    val fst : ('a,_) p -> 'a t
-    val snd : (_,'b) p -> 'b t
-  end
-
-module Pack3 :
-  sig
-    type ('a,'b,'c) p
-    val make : 'a t -> 'b t -> 'c t -> ('a,'b,'c) p
-    val fst : ('a,_,_) p -> 'a t
-    val snd : (_,'b,_) p -> 'b t
-    val trd : (_,_,'c) p -> 'c t
-  end
+external int : 'a t -> int = "%identity"
+external __num_of_int__ : int -> 'a t = "%identity"
 
 (*------------------------------------*)
 

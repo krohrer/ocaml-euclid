@@ -1,128 +1,102 @@
-(** Matrix (persistent/ephemeral) of floats of statically typed
-    dimensions *)
+(** Matrix of floats of statically typed dimensions MxN (rows, cols)
 
-type ephemeral = Core.ephemeral
-type persistent = Core.persistent
+    Square matrices are MxM.
+*)
 
-type ('a,'m,'n) t
+type ('m,'n) t
+type 'n dim = 'n N.t
+type 'n vec = 'n Vector.t
 
 (** {6 Helper types} *)
 (*----------------------------------------------------------------------------*)
 
-type majority = [`row_major | `column_major]
+exception NotInvertible
 
 (** {6 Creation / Initialization} *)
 (*----------------------------------------------------------------------------*)
 
-val make :  ?init:float -> 'm N.t -> 'n  N.t -> (_,'m ,'n ) t
+val init : 'm N.t -> 'n N.t -> (int -> int -> float) -> ('m,'n) t
 
-val zero : 'm  N.t -> 'n  N.t -> (_,'m ,'n ) t
-val identity : 'n  N.t -> (_,'n ,'n ) t
+val make_cols : 'm vec array -> 'n dim -> ('m,'n) t
+val make_rows : 'm dim -> 'n vec array -> ('m,'n) t
 
-val fill' : float -> (ephemeral,_,_) t -> unit
-val zero' : (ephemeral,_,_) t -> unit
-val identity' : (ephemeral,'n,'n) t -> unit
+val zero : 'm dim -> ('m,'m) t
+val identity  : 'm dim -> ('m,'m) t
 
-val random : ?state:Rnd.state -> 'm  N.t -> 'n  N.t -> (_,'m,'n) t
-val random_invertible : ?state:Rnd.state -> 'n N.t -> (_,'m,'n) t
+(* {6 Randomization} *)
+(*----------------------------------------------------------------------------*)
+
+val random : Rnd.t -> 'm dim -> 'n dim -> ('m,'n) t
+val random_invertible : Rnd.t -> 'm N.t -> ('m,'m) t
 
 (** {6 Conversion and copying} *)
 (*----------------------------------------------------------------------------*)
 
-val copied : (_,'m,'n) t -> (_,'m,'n) t
+val to_rows : ('m,'n) t -> ('n vec) array
+val to_cols : ('m,'n) t -> ('m vec) array
 
-val copy' : (_,'m,'n) t -> (ephemeral,'m,'n) t -> unit
-
-(** Copies the common fields between matrices of different size *)
-val xfer' : (_,_,_) t -> (ephemeral,_,_) t -> unit
-
-(**  *)
-val of_array : majority -> 'm  N.t -> 'n  N.t -> float array -> (ephemeral,'m ,'n ) t
-val to_array : majority -> (ephemeral,'m,'n) t -> float array
+val to_array : [`column_major|`row_major] -> ('m,'n) t -> float array
+val from_array : [`column_major|`row_major] -> 'm dim -> 'n dim -> float array -> ('m,'n) t
 
 (** {6 Representation} *)
 (*----------------------------------------------------------------------------*)
 
-val of_arrays : 'm N.t -> 'n N.t -> float array array -> (_,'m ,'n ) t
-val to_arrays : (_,'m,'n) t -> float array array
-
-(** Escape from local mutability. *)
-val __absolve__ : (ephemeral,'m,'n) t -> (_,'m,'n) t
-(** Phantom-type magic *)
-val __magic__ : (_,'m,'n) t -> (_,'m,'n) t
+val __make__ : 'm dim -> 'n dim -> ImpMat.t -> ('m,'n) t
+val __repr__ : ('m,'n) t -> ImpMat.t
 
 (** {6 Access} *)
 (*----------------------------------------------------------------------------*)
 
-val rows : (_,'m,_) t -> int
-val columns : (_,_,'n) t -> int
-val row_dimension : (_,'m,_) t -> 'm N.t
-val column_dimension : (_,_,'n) t -> 'n N.t
+type 'a idx (** Type-safe index *)
 
-val get : (_,_,_) t -> int -> int -> float
-val set' : (ephemeral,_,_) t -> int -> int -> float -> unit
+val x : 'a N.s1 idx
+val y : 'a N.s2 idx
+val z : 'a N.s3 idx
+val w : 'a N.s4 idx
 
-val row : ('a,_,'n) t -> int -> ('a,'n) Vector.t
-val column : (persistent,'m,_) t -> int -> (persistent,'m) Vector.t
-val diagonal : (persistent,'n,'n) t -> (persistent,'n) Vector.t
+val rows : ('m,_) t -> int
+val cols : (_,'n) t -> int
+val row_dim : ('m,_) t -> 'm N.t
+val col_dim : (_,'n) t -> 'n N.t
 
-val get_minor' : (_,'m N.succ, 'n N.succ) t -> int -> int -> (ephemeral,'m,'n) t -> unit
+val get : ('m,'n) t -> 'm idx -> 'n idx -> float
 
-val get_row' : (_,_,'n) t -> int -> (ephemeral,'n) Vector.t -> unit
-val get_column' : (_,'m,_) t -> int -> (ephemeral,'m) Vector.t -> unit
-val get_diagonal' : (_,'n,'n) t -> (ephemeral,'n) Vector.t -> unit
-val set_row' : (ephemeral,_,'n) t -> int -> (_,'n) Vector.t -> unit
-val set_column' : (ephemeral,'m,_) t -> int -> (_,'m) Vector.t -> unit
-val set_diagonal' : (ephemeral,'n,'n) t -> (_,'n) Vector.t -> unit
+val row : (_,'n) t -> 'n idx -> 'n vec
+val col : ('m,_) t -> 'm idx -> 'm vec
+val diagonal : ('n,'n) t -> 'n vec
 
-(** {6 Ephemeral operations} *)
+val get' : (_,_) t -> int -> int -> float
+val row' : (_,'n) t -> int -> 'n vec
+val col' : ('m,_) t -> int -> 'm vec
+
+(** {6 Operations} *)
 (*----------------------------------------------------------------------------*)
 
-val neg'  : (_,'m,'n) t -> (ephemeral,'m,'n) t -> unit
-val sub'  : (_,'m,'n) t -> (_,'m,'n) t -> (ephemeral,'m,'n) t -> unit
-val add'  : (_,'m,'n) t -> (_,'m,'n) t -> (ephemeral,'m,'n) t -> unit
-val mul1' : (_,'m,'n) t -> float -> (ephemeral,'m,'n) t -> unit
-val mulm' : (_,'m,'n) t -> (_,'n,'s) t -> (ephemeral,'m,'s) t -> unit
-val mulv' : (_,'m,'n) t -> (_,'n) Vector.t -> (ephemeral,'m) Vector.t -> unit
-val vmul' : (_,'m) Vector.t -> (_,'m,'n) t -> (ephemeral,'n) Vector.t -> unit
+val ( ~- ) : ('m,'n) t -> ('m,'n) t
+val ( +  ) : ('m,'n) t -> ('m,'n) t -> ('m,'n) t
+val ( -  ) : ('m,'n) t -> ('m,'n) t -> ('m,'n) t
+val ( *  ) : ('m,'n) t -> ('n,'o) t -> ('m,'o) t
+val ( *. ) : float     -> ('m,'n) t -> ('m,'n) t
 
-val invert'   : (_,'n,'n) t -> (ephemeral,'n,'n) t -> unit
-val transpose' : (_,'n,'m) t -> (ephemeral,'m,'n) t -> unit
+val neg  : ('m,'n) t -> ('m,'n) t
+val add  : ('m,'n) t -> ('m,'n) t -> ('m,'n) t
+val sub  : ('m,'n) t -> ('m,'n) t -> ('m,'n) t
+val mul  : ('m,'n) t -> ('n,'o) t -> ('m,'o) t
+val smul : float -> ('m,'n) t -> ('m,'n) t
 
-(** {6 Pure operations} *)
-(*----------------------------------------------------------------------------*)
-
-val neg  : (_,'m,'n) t -> (_,'m,'n) t
-val sub  : (_,'m,'n) t -> (_,'m,'n) t -> (_,'m,'n) t
-val add  : (_,'m,'n) t -> (_,'m,'n) t -> (_,'m,'n) t
-val mul1 : (_,'m,'n) t -> float -> (_,'m,'n) t
-val mulm : (_,'l,'m) t -> (_,'m,'n) t -> (_,'l,'n) t
-val mulv : (_,'m,'n) t -> (_,'n) Vector.t -> (_,'m) Vector.t
-val vmul : (_,'m) Vector.t -> (_,'m,'n) t -> (_,'n) Vector.t
-
-val inverted : (_,'n,'n) t -> (_,'n,'n) t
-val transposed : (_,'m,'n) t -> (_,'n,'m) t
-
-val det : (_,'n,'n) t -> float
+val invert : ('n,'n) t -> ('n,'n) t
+val transpose : ('m,'n) t -> ('n,'m) t
+(* val det : ('n,'n) t -> float *)
 
 (** {6 Predicates} *)
 (*----------------------------------------------------------------------------*)
 
-val is_zero : eps:float -> (_,'n,'n) t -> bool
-val is_equal : eps:float -> (_,'m,'n) t -> (_,'m,'n) t -> bool
-val is_identity : eps:float -> (_,'m,'n) t -> bool
+val is_equal : Float.eps -> ('m,'n) t -> ('m,'n) t -> bool
+val is_zero  : Float.eps -> ('m,'n) t -> bool
+val is_identity : Float.eps -> ('m,'n) t -> bool
 
-(** {6 Printing} *)
-(*----------------------------------------------------------------------------*)
+(* (\** {6 Printing} *\) *)
+(* (\*----------------------------------------------------------------------------*\) *)
 
-val to_string : (_,_,_) t -> string
-val print : Format.formatter -> (_,_,_) t -> unit
-
-(** {6 Unit testing} *)
-(*----------------------------------------------------------------------------*)
-
-val test_equal : string -> (_,'m,'n) t -> (_,'m,'n) t -> unit
-val unit_test : OUnit.test
-
-
-
+(* val to_string : (_,_) t -> string *)
+(* val print : Format.formatter -> (_,_) t -> unit *)

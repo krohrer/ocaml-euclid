@@ -45,6 +45,12 @@ let min ~n ~dst a b =
 let max ~n ~dst a b =
   for i = 0 to n-1 do dst.(i) <- Float.max a.(i) b.(i) done
 
+let add'mul ~n ~dst a b c =
+  for i = 0 to n-1 do dst.(i) <- a.(i) +. b.(i) *. c.(i) done
+
+let add'smul ~n ~dst a s b =
+  for i = 0 to n-1 do dst.(i) <- a.(i) +. s *. b.(i) done
+
 let dot ~n a b =
   match n with
   | 1 -> a.(0)*.b.(0)

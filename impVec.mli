@@ -1,4 +1,8 @@
-(** {6 Unsafe mutable operations} *)
+(** {6 Unsafe mutable operations on vectors}
+
+    These operations are supposed to be used as building blocks for
+    side-effect free operations, in order to keep unnecessary
+    allocations down. *)
 (*----------------------------------------------------------------------------*)
 
 type t = float array
@@ -19,6 +23,9 @@ val divs : n:int -> dst:t -> t -> float -> unit
 val abs  : n:int -> dst:t -> t -> unit
 val min  : n:int -> dst:t -> t -> t -> unit
 val max  : n:int -> dst:t -> t -> t -> unit
+
+val add'mul  : n:int -> dst:t -> t -> t -> t -> unit
+val add'smul : n:int -> dst:t -> t -> float -> t -> unit
 
 val dot : n:int -> t -> t -> float
 val len : n:int -> t -> float

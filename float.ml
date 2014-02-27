@@ -17,8 +17,8 @@ external ( -  ) : float -> float -> float = "%subfloat"
 external ( *  ) : float -> float -> float = "%mulfloat"
 external ( /  ) : float -> float -> float = "%divfloat"
 
-external f' : int -> float = "%floatofint"
-external i' : float -> int = "%intoffloat"
+external float : int -> float = "%floatofint"
+external to_int : float -> int = "%intoffloat"
 external abs : float -> float = "%absfloat"
 external ( mod ) : float -> float -> float = "caml_fmod_float" "fmod" "float"
 
@@ -69,16 +69,3 @@ external ( >  )  : float -> float -> bool = "%greaterthan"
 external ( <= )  : float -> float -> bool = "%lessequal"
 external ( >= )  : float -> float -> bool = "%greaterequal"
 external compare : float -> float -> int = "%compare"
-
-(*------------------------------------*)
-
-open OUnit
-
-let test_equal msg u v =
-  assert_equal
-    ~msg
-    ~cmp:(is_equal delta)
-    ~printer:string_of_float
-    u v
-
-(*----------------------------------------------------------------------------*)

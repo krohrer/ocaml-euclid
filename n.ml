@@ -29,8 +29,8 @@ type _10 = zero s10
 
 (*------------------------------------*)
 
-let int d = d
-let __num_of_int__ d = d
+external int : 'a t -> int = "%identity"
+external __num_of_int__ : int -> 'a t = "%identity"
 
 let unary k = k 0
 let i n k = k (n + 1)
@@ -51,7 +51,15 @@ let _10 = unary i i i i i i i i i i num
 let pred n = n-1
 let s n = n+1
 
-module Pack2 =
+(*----------------------------------------------------------------------------*)
+
+module Pack2 :
+  sig
+    type ('a,'b) p
+    val make : 'a t -> 'b t -> ('a,'b) p
+    val fst : ('a,_) p -> 'a t
+    val snd : (_,'b) p -> 'b t
+  end =
   struct
     type ('a,'b) p = int
     let make n1 n2 =
@@ -65,7 +73,14 @@ module Pack2 =
       (nn lsr 8) land 0xFF
   end
 
-module Pack3 =
+module Pack3 :
+  sig
+    type ('a,'b,'c) p
+    val make : 'a t -> 'b t -> 'c t -> ('a,'b,'c) p
+    val fst : ('a,_,_) p -> 'a t
+    val snd : (_,'b,_) p -> 'b t
+    val trd : (_,_,'c) p -> 'c t
+  end =
   struct
     type ('a,'b,'c) p = int
     let make n1 n2 n3 =

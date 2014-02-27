@@ -3,6 +3,7 @@
 open Core
 module Imp = ImpVec
 
+type 'n dim = 'n N.t
 type 'n t = float array
 
 type c1 = [`x]
@@ -32,7 +33,7 @@ let make4 x y z w= [|x;y;z;w|]
 let size a =
   Array.length a
 
-let dimension a =
+let dim a =
   N.__num_of_int__ (size a)
 
 (*------------------------------------*)
@@ -74,17 +75,24 @@ let from_array a d =
   else
     invalid_arg "Vector.from_array: mismatched size."
 
+let __make__ dm v =
+  assert (N.int dm = Array.length v);
+  v
+
 external __repr__ : 'n t -> ImpVec.t = "%identity"
 
 (*------------------------------------*)
 
 (* no assert necessary here because ocaml checks indices *)
-let get i v = v.(i)
 
-let x = get 0
-let y = get 1
-let z = get 2
-let w = get 3
+type 'a idx = int
+let x = 0
+and y = 1
+and z = 2
+and w = 3
+
+let get v i = v.(i)
+let get' = get
 
 (*------------------------------------*)
 
@@ -180,7 +188,7 @@ let is_zero eps a =
 
 (*------------------------------------*)
 
-let random ?(state=Rnd.default) ?lower ?upper d =
+let random ~state ?lower ?upper d =
   let n = N.int d in
   let dst = Imp.alloc n in
   let lower = Option.may_default zero d lower in
@@ -188,13 +196,13 @@ let random ?(state=Rnd.default) ?lower ?upper d =
   Imp.random state ~n ~dst ~lower ~upper;
   dst
 
-let random_unit ?(state=Rnd.default) d =
+let random_unit ~state d =
   let n = N.int d in
   let dst = Imp.alloc n in
   Imp.random_unit state ~n ~dst;
   dst
 
-let random_gaussian ?(state=Rnd.default) ?mu ?sigma d =
+let random_gaussian ~state ?mu ?sigma d =
   let n = N.int d in
   let dst = Imp.alloc n in
   let mu = Option.may_default zero d mu in

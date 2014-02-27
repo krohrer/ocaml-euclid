@@ -1,5 +1,6 @@
 (** Vector of floats of statically typed dimension *)
 
+type 'n dim = 'n N.t
 type 'n t
 
 (** {6 Helper types} *)
@@ -13,53 +14,57 @@ type c4 = [`x|`y|`z|`w]
 (** {6 Creation / Initialization} *)
 (*----------------------------------------------------------------------------*)
 
-val init : 'n N.t -> (int -> float) -> 'n t
-val fill : 'n N.t -> float -> 'n t
+val init : 'n dim -> (int -> float) -> 'n t
+val fill : 'n dim -> float -> 'n t
 
 val make1 : float -> N._1 t
 val make2 : float -> float -> N._2 t
 val make3 : float -> float -> float -> N._3 t
 val make4 : float -> float -> float -> float -> N._4 t
 
-val zero : 'n N.t -> 'n t
-val one  : 'n N.t -> 'n t
+val zero : 'n dim -> 'n t
+val one  : 'n dim -> 'n t
 
 (* Unity vectors *)
-val ex : (_ N.s1 as 'n) N.t -> 'n t
-val ey : (_ N.s2 as 'n) N.t -> 'n t
-val ez : (_ N.s3 as 'n) N.t -> 'n t
-val ew : (_ N.s4 as 'n) N.t -> 'n t
+val ex : (_ N.s1 as 'n) dim -> 'n t
+val ey : (_ N.s2 as 'n) dim -> 'n t
+val ez : (_ N.s3 as 'n) dim -> 'n t
+val ew : (_ N.s4 as 'n) dim -> 'n t
 
 (** {6 Randomization} *)
 (*----------------------------------------------------------------------------*)
 
-val random : ?state:Rnd.t -> ?lower:'n t -> ?upper:'n t -> 'n N.t -> 'n t
-val random_unit : ?state:Rnd.t -> 'n N.t -> 'n t
-val random_gaussian : ?state:Rnd.t -> ?mu:'n t -> ?sigma:'n t -> 'n N.t -> 'n t
+val random : state:Rnd.t -> ?lower:'n t -> ?upper:'n t -> 'n dim -> 'n t
+val random_unit : state:Rnd.t -> 'n dim -> 'n t
+val random_gaussian : state:Rnd.t -> ?mu:'n t -> ?sigma:'n t -> 'n dim -> 'n t
 
 (** {6 Conversion and copying} *)
 (*----------------------------------------------------------------------------*)
 
 val to_array : _ t -> float array
-val from_array : float array -> 'n N.t -> 'n t
+val from_array : float array -> 'n dim -> 'n t
 
-(** {6 Representation} *)
+(** {6 Internals} *)
 (*----------------------------------------------------------------------------*)
 
+val __make__ : 'n dim -> ImpVec.t -> 'n t
 external __repr__ : 'n t -> ImpVec.t = "%identity"
 
 (** {6 Access} *)
 (*----------------------------------------------------------------------------*)
 
+type 'a idx (** Type-safe index *)
+
+val x : 'a N.s1 idx
+val y : 'a N.s2 idx
+val z : 'a N.s3 idx
+val w : 'a N.s4 idx
+
 val size : _ t -> int
-val dimension : _ t -> 'n N.t
+val dim : 'n t -> 'n dim
 
-val get : int -> _ t -> float
-
-val x : _ N.s1 t -> float
-val y : _ N.s2 t -> float
-val z : _ N.s3 t -> float
-val w : _ N.s4 t -> float
+val get : 'n t -> 'n idx -> float
+val get' : 'n t -> int -> float
 
 (** {6 Operations} *)
 (*----------------------------------------------------------------------------*)
@@ -110,7 +115,7 @@ val lensq : 'n t -> float
 (*----------------------------------------------------------------------------*)
 
 val is_equal : Float.eps -> 'n t -> 'n t -> bool
-val is_zero : Float.eps -> 'n t -> bool
+val is_zero  : Float.eps -> 'n t -> bool
 
 (** {6 Printing} *)
 (*----------------------------------------------------------------------------*)
